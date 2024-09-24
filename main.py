@@ -23,43 +23,106 @@ link_button.click()
 link_button = driver.find_element(By.CSS_SELECTOR, "a[href='https://jobs.apple.com/en-us/search?location=United-States-USA&team=Apps-and-Frameworks-SFTWR-AF']")
 link_button.click()
 
-
-'''
-icon_button = driver.find_element(By.CSS_SELECTOR, "span.accordion-icon.icon.icon-after.icon-plus")
-icon_button.click()
-'''
 # Esperar a que se carguen los tbody
-time.sleep(3)  # Aumenta el tiempo si es necesario
+WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "button.accordion-trigger")))
 
-# Extraer información de los tbody
-tbodys = driver.find_elements(By.TAG_NAME, 'tbody')
+buttons = driver.find_elements(By.CSS_SELECTOR, "button.accordion-trigger")
 
-for tbody in tbodys:
+for button in buttons:
+    section_id = button.get_attribute('data-section-id')  # Obtener el id de la sección
+    print(f"Haciendo clic en el botón de la sección: {section_id}")
 
-    tbody_id = tbody.get_attribute('id')  # Obtener el id del tbody
-    rows = tbody.find_elements(By.TAG_NAME, 'tr')  # Encontrar todas las filas dentro del tbody
+    # Hacer clic en el botón
+    button.click()
 
-    print(f"Información del {tbody_id}:")
-    for row in rows:
+    # Esperar a que se cargue el contenido del acordeón
+    time.sleep(1)  # Ajusta el tiempo según sea necesario
 
-        # Extraer información de las columnas
-        columns = row.find_elements(By.TAG_NAME, 'td')  # Encuentra todas las celdas
-        row_data = [column.text.strip() for column in columns]  # Extrae el texto de cada celda
+    # Buscar los elementos de interés:
+    # 1. Obtener el "Team"
+    try:
+        team = driver.find_element(By.CSS_SELECTOR, f'span.filters-list__title').text.strip()
+        print(f"Team: {team}")
+    except:
+        print("Team no encontrado")
 
-        # Imprime la información de la fila
-        print(row_data)
+    # 2. Obtener la "Category"
+    try:
+        category = driver.find_element(By.CSS_SELECTOR, f'span.teams-filter-checklst').text.strip()
+        print(f"Category: {category}")
+    except:
+        print("Category no encontrada")
 
-        # Buscar el botón del acordeón dentro de la fila (si está presente)
+    # 3. Obtener la "Team Description"
+    try:
+        description = driver.find_element(By.CSS_SELECTOR, f'p#role_description_{section_id}').text.strip()
+        print(f"Team Description: {description}")
+    except:
+        print("Descripción no encontrada")
+
+    # 4. Obtener el link "Submit Resume"
+    try:
+        submit_link = driver.find_element(By.CSS_SELECTOR, f'a.btn.btn--md.btn--blue-gradient').get_attribute('href')
+        print(f"Submit Resume link: {submit_link}")
+    except:
+        print("Link de Submit Resume no encontrado")
+
+    # 5. Obtener el link "See full role description"
+    try:
+        full_role_description_link = driver.find_element(By.CSS_SELECTOR, f"a#role-description_{section_id}").get_attribute('href')
+    # Acceder directamente a la página de "See full role description"
+        driver.get(full_role_description_link)
+
+    # Esperar un poco para que se cargue la página completa
+        time.sleep(3)
+
+        # Imprimir los datos solicitados
         try:
-            icon_button = row.find_element(By.CSS_SELECTOR, "span.accordion-icon.icon.icon-after.icon-plus")
-            if icon_button.is_displayed() and icon_button.is_enabled():
-                icon_button.click()  # Hacer clic en el botón del acordeón
-                print(f"Haciendo clic en el botón de la fila: {row_data}")
-            else:
-                print("El botón no está visible o habilitado.")
+            # Job Category
+            job_category = driver.find_element(By.ID, "job-team-name").text.strip()
+            print(f"Job Category: {job_category}")
+
+            # Job Title
+            job_title = driver.find_element(By.ID, "jdPostingTitle").text.strip()
+            print(f"Job Title: {job_title}")
+
+            # Job Location
+            job_location = driver.find_element(By.ID, "job-location-name").text.strip()
+            print(f"Job Location: {job_location}")
+
+            # Posted Date
+            posted_date = driver.find_element(By.ID, "jobPostDate").get_attribute('datetime').strip()
+            print(f"Posted Date: {posted_date}")
+
+            # Role Number
+            role_number = driver.find_element(By.ID, "jobNumber").text.strip()
+            print(f"Role Number: {role_number}")
+
+            # Summary
+            summary = driver.find_element(By.ID, "jd-job-summary").text.strip()
+            print(f"Summary: {summary}")
+
+            # Description
+            description = driver.find_element(By.ID, "jd-description").text.strip()
+            print(f"Description: {description}")
+
         except Exception as e:
-            print(f"No se pudo encontrar el botón del acordeón en la fila: {e}")
+            print(f"Error al obtener la información: {e}")
 
-   # < a href = "/careers/us/hardware.html" class ="more" > Hardware < / a >
+    # 6. Obtener el enlace "Back to search results" y hacer clic para regresar
+        try:
+            back_to_search_link = driver.find_element(By.CSS_SELECTOR, "a.arrow.arrow--blue.arrow--left").get_attribute(
+            'href')
+        # Volver a la página de resultados de búsqueda
+            driver.get(back_to_search_link)
+        # Esperar para asegurar que la página se haya cargado
+            time.sleep(2)
 
-#driver.quit()
+        except Exception as e:
+            print(f"Link de 'Back to search results' no encontrado. Error: {e}")
+
+    except Exception as e:
+        print(f"Link de 'See full role description' no encontrado. Error: {e}")
+
+# < a href = "/careers/us/hardware.html" class ="more" > Hardware < / a >
+
