@@ -1,6 +1,6 @@
 # Scraping de Ofertas Laborales en Apple
 
-Este proyecto utiliza Selenium para extraer datos de ofertas laborales de la página de carreras de Apple. El script navega por la web, accede a las ofertas de trabajo, y recoge información relevante que luego se guarda en un archivo JSON.
+Este proyecto utiliza Selenium para extraer datos de ofertas laborales de la página de carreras de Apple. El script navega por la web, accede a las ofertas de trabajo de la categoria "software and services", y recoge información relevante que luego se guarda en un archivo JSON.
 ## Requisitos
 
 Asegúrate de tener lo siguiente instalado en tu entorno:
@@ -53,6 +53,27 @@ Asegúrate de que el controlador esté en tu PATH.
   - Calificaciones clave o calificaciones preferidas
   - Rango salarial (mínimo y máximo)
 - Almacenamiento de la información en un archivo JSON llamado trabajos.json.
+
+
+## Ejemplo de Salida
+
+El archivo trabajos.json tendrá la siguiente estructura para cada trabajo:
+
+        [
+            {
+                "Title": "Software Engineer",
+                "Team": "Apps and Frameworks",
+                "Job Category": "Software Engineering",
+                "Job Title": "iOS Developer",
+                "Job Location": "Cupertino, CA",
+                "Posted Date": "2024-09-23",
+                "Role Number": "123456",
+                "Summary": "Develop innovative iOS applications.",
+                "Description": "As a part of the iOS team, you'll...",
+                "Job URL": "https://jobs.apple.com/en-us/job/123456/software-engineer"
+            },
+            ...
+        ]
 
 
 ## Notas
