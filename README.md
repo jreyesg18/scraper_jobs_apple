@@ -13,17 +13,14 @@ Asegúrate de tener lo siguiente instalado en tu entorno:
 
 1. Clona este repositorio:
 
-       ```bash
        git clone <URL_DEL_REPOSITORIO>
        cd <NOMBRE_DEL_REPOSITORIO>
 2. Crea un entorno virtual (opcional pero recomendado):
 
-       ```bash
         python -m venv venv
         source venv/bin/activate  # En Windows usa `venv\Scripts\activate`
 3. Instala las dependencias:
 
-       ```bash
        pip install selenium
 4. Descarga el controlador de navegador adecuado:
 
