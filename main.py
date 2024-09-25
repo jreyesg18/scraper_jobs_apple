@@ -4,76 +4,64 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
+# URL de la página inicial
+Pagina_Url = "https://www.apple.com/careers/us/index.html"
 
-#Palabra_clave = input("Que buscas: ")
-#Pagina_Url = input("Ingrese URL: ")
-#navegador = input("Seleccione el navegador que desea utilizar:\n1. Chrome\n2. Firefox\nEscriba '1' o '2', o directamente 'Chrome' o 'Firefox': ").lower()
-
-Pagina_Url ="https://www.apple.com/careers/us/index.html"
-
-driver = None
-
+# Inicializar el driver
 driver = webdriver.Chrome()
 
+# Acceder a la URL
 driver.get(Pagina_Url)
 
-link_button = driver.find_element(By.CSS_SELECTOR, "a.more[href='/careers/us/software-and-services.html']")
-link_button.click()
+try:
+    # Esperar hasta que el primer link esté disponible y hacer clic
+    link_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "a.more[href='/careers/us/software-and-services.html']"))
+    )
+    link_button.click()
 
-link_button = driver.find_element(By.CSS_SELECTOR, "a[href='https://jobs.apple.com/en-us/search?location=United-States-USA&team=Apps-and-Frameworks-SFTWR-AF']")
-link_button.click()
+    # Esperar hasta que el segundo link esté disponible y hacer clic
+    second_link_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR,
+                                    "a[href='https://jobs.apple.com/en-us/search?location=United-States-USA&team=Apps-and-Frameworks-SFTWR-AF']"))
+    )
+    second_link_button.click()
 
-# Esperar a que se carguen los tbody
-WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "button.accordion-trigger")))
+    # Esperar a que los trabajos se carguen
+    job_links = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a.arrow.arrow--blue.arrow--14"))
+    )
 
-buttons = driver.find_elements(By.CSS_SELECTOR, "button.accordion-trigger")
+    # Guardar los href de cada trabajo
+    job_urls = [link.get_attribute('href') for link in job_links]
 
-for button in buttons:
-    section_id = button.get_attribute('data-section-id')  # Obtener el id de la sección
-    print(f"Haciendo clic en el botón de la sección: {section_id}")
+    # Iterar sobre cada trabajo
+    for job_url in job_urls:
+        # Navegar a la URL del trabajo
 
-    # Hacer clic en el botón
-    button.click()
+        # Hacer clic en el botón para mostrar el equipo
+        teams_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "teams-filter-acc"))
+        )
+        teams_button.click()
 
-    # Esperar a que se cargue el contenido del acordeón
-    time.sleep(1)  # Ajusta el tiempo según sea necesario
+        # Esperar a que los elementos del equipo estén visibles
+        try:
+            time.sleep(1)  # Esperar un momento para permitir que el contenido se cargue
 
-    # Buscar los elementos de interés:
-    # 1. Obtener el "Team"
-    try:
-        team = driver.find_element(By.CSS_SELECTOR, f'span.filters-list__title').text.strip()
-        print(f"Team: {team}")
-    except:
-        print("Team no encontrado")
+            title = driver.find_element(By.CSS_SELECTOR, "span.filters-list__title").text.strip()
+            print(f"Title: {title}")
+        except Exception as e:
+            print("Title no encontrado")
 
-    # 2. Obtener la "Category"
-    try:
-        category = driver.find_element(By.CSS_SELECTOR, f'span.teams-filter-checklst').text.strip()
-        print(f"Category: {category}")
-    except:
-        print("Category no encontrada")
+        try:
+            team = driver.find_element(By.CSS_SELECTOR, "span.teams-filter-checklst").text.strip()
+            print(f"Team: {team}")
+        except Exception as e:
+            print("Team no encontrado")
+        driver.get(job_url)
 
-    # 3. Obtener la "Team Description"
-    try:
-        description = driver.find_element(By.CSS_SELECTOR, f'p#role_description_{section_id}').text.strip()
-        print(f"Team Description: {description}")
-    except:
-        print("Descripción no encontrada")
-
-    # 4. Obtener el link "Submit Resume"
-    try:
-        submit_link = driver.find_element(By.CSS_SELECTOR, f'a.btn.btn--md.btn--blue-gradient').get_attribute('href')
-        print(f"Submit Resume link: {submit_link}")
-    except:
-        print("Link de Submit Resume no encontrado")
-
-    # 5. Obtener el link "See full role description"
-    try:
-        full_role_description_link = driver.find_element(By.CSS_SELECTOR, f"a#role-description_{section_id}").get_attribute('href')
-    # Acceder directamente a la página de "See full role description"
-        driver.get(full_role_description_link)
-
-    # Esperar un poco para que se cargue la página completa
+        # Esperar un poco para que se cargue la página completa
         time.sleep(3)
 
         # Imprimir los datos solicitados
@@ -109,20 +97,21 @@ for button in buttons:
         except Exception as e:
             print(f"Error al obtener la información: {e}")
 
-    # 6. Obtener el enlace "Back to search results" y hacer clic para regresar
-        try:
-            back_to_search_link = driver.find_element(By.CSS_SELECTOR, "a.arrow.arrow--blue.arrow--left").get_attribute(
-            'href')
-        # Volver a la página de resultados de búsqueda
-            driver.get(back_to_search_link)
-        # Esperar para asegurar que la página se haya cargado
-            time.sleep(2)
+        # Imprimir la URL del trabajo
+        print(f"Job URL: {job_url}")
+        print("---------------------------------------------------")
 
-        except Exception as e:
-            print(f"Link de 'Back to search results' no encontrado. Error: {e}")
+        # Regresar a la página anterior
+        driver.back()
+        # Esperar a que la página anterior vuelva a cargar
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, "a.arrow.arrow--blue.arrow--14"))
+        )
 
-    except Exception as e:
-        print(f"Link de 'See full role description' no encontrado. Error: {e}")
+except Exception as e:
+    print(f"Se produjo un error: {e}")
 
-# < a href = "/careers/us/hardware.html" class ="more" > Hardware < / a >
+finally:
+    # Cerrar el driver
+    driver.quit()
 
