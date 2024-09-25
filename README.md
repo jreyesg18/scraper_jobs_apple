@@ -61,18 +61,20 @@ El archivo trabajos.json tendrá la siguiente estructura para cada trabajo:
 
         [
             {
-                "Title": "Software Engineer",
+                "Title": "Software and Services:",
                 "Team": "Apps and Frameworks",
-                "Job Category": "Software Engineering",
-                "Job Title": "iOS Developer",
-                "Job Location": "Cupertino, CA",
-                "Posted Date": "2024-09-23",
-                "Role Number": "123456",
-                "Summary": "Develop innovative iOS applications.",
-                "Description": "As a part of the iOS team, you'll...",
-                "Job URL": "https://jobs.apple.com/en-us/job/123456/software-engineer"
-            },
-            ...
+                "Job Category": "Software and Services",
+                "Job Title": "Python Software Development Engineer - Apps Services",
+                "Job Location": "Cupertino, California, United States",
+                "Posted Date": "20240924",
+                "Role Number": "200569639",
+                "Summary": "Imagine what you could do here. At Apple, great ideas have a way of becoming great products, services, and customer experiences very quickly. Bring passion and dedication to your job and there's no telling what you could accomplish. \n\nOur team runs the CI/CD pipeline for Apple's applications which supports thousands of developers around the globe. We are passionate about continuously improving the way we enable the software development lifecycle and push the envelope to reimagine cutting edge solutions to engineering problems of scale. As a member of the team, you would develop applications and micro-services to build and improve our next generation CI/CD pipeline.",
+                "Description": "Develop and maintain CI/CD pipeline, services and integrations for Application development teams.\n\nCollaborate across teams to improve build, integration & release process.\n\nDevelop and maintain services and integrations for Apps Services CI/CD pipeline.\n\nMaintain and administrate dynamic Linux/macOS build farm.",
+                "Key Qualifications": "B.S. in Computer Science or equivalent.\nProficient in Python programming.\nExperience with software development processes such as compilation, unit testing, code analysis, release process, and code coverage.\nExperience working on Linux and macOS based platforms.\nExperience with DevOps tools such as Ansible, Docker, Kubernetes.\nExperience with CI/CD process and platforms.\nAbility to participate in an after hours on-call rotation schedule.\nStrong analytical and problem solving skills.\nExcellent written and oral communication skills and ability to work with large development teams.",
+                "Salario M\u00ednimo": 143100,
+                "Salario M\u00e1ximo": 264200,
+                "Job URL": "https://jobs.apple.com/en-us/details/200569639/python-software-development-engineer-apps-services?team=SFTWR"
+            }
         ]
 
 

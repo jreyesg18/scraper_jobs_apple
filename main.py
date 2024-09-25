@@ -69,12 +69,13 @@ try:
 
                 # Posted Date
                 posted_date = driver.find_element(By.ID, "jobPostDate").get_attribute('datetime').strip()
+                print(f"Posted Date: {posted_date}")
 
                 # Transformar el formato de la fecha
                 try:
                     date_object = datetime.strptime(posted_date, "%Y-%m-%d")
                     formatted_date = date_object.strftime("%Y%m%d")  # Convertir a yyyyMMdd
-
+                    print(f"Formatted Posted Date: {formatted_date}")
                 except ValueError as e:
                     print(f"Error al transformar la fecha: {e}")
 
@@ -85,7 +86,7 @@ try:
                 # Intentar extraer "Key Qualifications"
                 try:
                     key_qualifications = driver.find_element(By.ID, "jd-key-qualifications").text.strip()
-
+                    print(f"key_qualifications: {key_qualifications}")
                 except Exception:
                     key_qualifications = None  # Si no está disponible, establecer como None
 
@@ -93,9 +94,10 @@ try:
                 if not key_qualifications:
                     try:
                         preferred_qualifications = driver.find_element(By.ID, "jd-minimum-qualifications").text.strip()
-
+                        print(f"preferred_qualifications: {preferred_qualifications}")
                     except Exception:
                         preferred_qualifications = None
+                        print("No se encontraron 'Key Qualifications' ni 'Preferred Qualifications'.")
 
                 # pay_benefits
                 try:
@@ -117,10 +119,14 @@ try:
                         salario_max = salario_max.replace(',', '')  # Remover las comas
                         salario_max = int(salario_max)  # Convertir a entero
 
+                        print(f"Salario Mínimo: {salario_min}")  # Ahora mostrará solo el número
+                        print(f"Salario Máximo: {salario_max}")  # Muestra solo el número
                     else:
+                        print("No se encontró el rango de salario en el texto.")
                         salario_min = 0
                         salario_max = 0
                 except Exception as e:
+                    print(f"Error al obtener Pay & Benefits:")
                     salario_min = 0
                     salario_max = 0
 
