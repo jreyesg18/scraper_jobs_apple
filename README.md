@@ -33,7 +33,6 @@ Asegúrate de que el controlador esté en tu PATH.
 1. Abre el script principal main.py y revisa el código si es necesario. 
 2. Ejecuta el script:
 
-       ```bash
        python main.py
 3. Selecciona el navegador que deseas usar (Chrome o Firefox) cuando se te solicite.
 
