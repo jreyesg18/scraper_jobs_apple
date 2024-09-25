@@ -1,14 +1,13 @@
-# Apple Careers Scraper
+# Scraping de Ofertas Laborales en Apple
 
-Este proyecto utiliza Selenium para hacer scraping de la página de carreras de Apple, extrayendo información sobre las ofertas de trabajo disponibles.
-
+Este proyecto utiliza Selenium para extraer datos de ofertas laborales de la página de carreras de Apple. El script navega por la web, accede a las ofertas de trabajo, y recoge información relevante que luego se guarda en un archivo JSON.
 ## Requisitos
 
 Asegúrate de tener lo siguiente instalado en tu entorno:
 
 - Python 3.x
-- [Selenium](https://www.selenium.dev/)
-- Controlador de navegador (ChromeDriver o GeckoDriver para Firefox)
+- Selenium
+- ChromeDriver (asegúrate de que la versión sea compatible con tu versión de Chrome)
 
 ## Instalación
 
@@ -41,14 +40,23 @@ Asegúrate de que el controlador esté en tu PATH.
        python main.py
 3. Selecciona el navegador que deseas usar (Chrome o Firefox) cuando se te solicite.
 
-## Cómo Funciona
+## Funcionalidad
 
-El script realiza los siguientes pasos:
+- Acceso a la página de carreras de Apple.
+- Navegación a la sección de trabajos de Software y Servicios.
+- Extracción de información relevante sobre cada oferta laboral, incluyendo:
 
-1. Accede a la página de carreras de Apple.
-2. Navega a la sección de Software y Servicios.
-3. Extrae información de las ofertas de trabajo, haciendo clic en los botones de acordeón para expandir cada sección.
-4. Imprime la información extraída en la consola.
+  - Título del trabajo
+  - Equipo asignado
+  - Categoría del trabajo
+  - Ubicación
+  - Fecha de publicación
+  - Número de rol
+  - Resumen y descripción
+  - Calificaciones clave o calificaciones preferidas
+  - Rango salarial (mínimo y máximo)
+- Almacenamiento de la información en un archivo JSON llamado trabajos.json.
+
 
 ## Notas
 
